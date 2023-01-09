@@ -6,9 +6,17 @@
 #    By: decordel <decordel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 05:36:42 by decordel          #+#    #+#              #
-#    Updated: 2022/10/30 05:41:25 by decordel         ###   ########.fr        #
+#    Updated: 2022/11/10 01:27:07 by decordel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+
+
+# ! SYSTEM TOOLS
+ASM		= ~/goinfre/.brew/bin/nasm
+BREW	= ~/goinfre/.brew/bin/brew
+
+# !
 
 EXT		= .out
 RM		= rm -rf
@@ -24,6 +32,14 @@ DEP		= ${OBJS:%.o=%.d}
 
 all: ${ASM}
 	echo Hello asm
+	
+${BREW}	:
+	sh ../../scripts/install_brew_goinfree.sh
+	exit 0
+
+${ASM}	: ${BREW}
+	${BREW} install nasm
+	exit 0
 
 -include ${DEP}
 
@@ -41,21 +57,8 @@ run		:	${NAME_EXT}
 leaks	:	${NAME_EXT}
 	@leaks --atExit -- ./$^  ${ARGS}
 
-#!--DEBUG
+#!
 
-
-# ! SYSTEM TOOLS
-ASM		= ~/goinfre/.brew/bin/nasm
-BREW	= ~/goinfre/.brew
-
-${BREW}	:
-	sh ../../scripts/install_brew_goinfree.sh
-	exit 0
-
-${ASM}	: ${BREW}
-	brew install nasm
-	exit 0
-# ! SYSTEM TOOLS
 
 clean	:
 	${RM} ${OBJS} ${DEP}
